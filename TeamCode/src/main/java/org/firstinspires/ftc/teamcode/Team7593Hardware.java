@@ -26,11 +26,9 @@ public class Team7593Hardware{
     public DcMotor motorRearRight;
     public DcMotor motorRearLeft;
 
-//
-//
-//    //declare servos
-//    public Servo drop1;
-//    public Servo drop2;
+    //declare servos
+    public Servo drop1;
+    public Servo drop2;
 
     //the way i made the code work is there's range that the servo can move
     //when a driver presses the dpad up or down the servo moves back or forth in this range
@@ -80,9 +78,9 @@ public class Team7593Hardware{
         motorRearRight = hwMap.get(DcMotor.class, "mrr");
         motorRearLeft = hwMap.get(DcMotor.class, "mrl");
 
-//        //Define and initialize servos
-//        drop1 = hwMap.get(Servo.class, "drop1");
-//        drop2 = hwMap.get(Servo.class, "drop2");
+        //Define and initialize servos
+        drop1 = hwMap.get(Servo.class, "drop1");
+        drop2 = hwMap.get(Servo.class, "drop2");
 
         //Define and initialize sensors
 

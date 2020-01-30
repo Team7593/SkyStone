@@ -93,6 +93,30 @@ public class Team7593TeleOp extends Team7593OpMode {
         robot.powerTheWheels(speeds);
 
 
+                //code to turn servo
+        if(gamepad1.dpad_up){
+            position += SPEED;
+            position = Range.clip(position, robot.MIN, robot.MAX);
+            robot.drop1.setPosition(position);
+            robot.drop2.setPosition(position);
+        }else if(gamepad1.dpad_down){
+            position -= SPEED;
+            position = Range.clip(position, robot.MIN, robot.MAX);
+            robot.drop1.setPosition(position);
+            robot.drop2.setPosition(position);
+        }
+
+        if(gamepad1.a){
+            robot.drop1.setPosition(0);
+            robot.drop2.setPosition(0);
+        }
+
+        if(gamepad1.a){
+            robot.drop1.setPosition(.8);
+            robot.drop2.setPosition(.8);
+        }
+
+
 //        //slow the tilt motor
 //        if(slowTilt){
 //            tiltPower = tiltPower/2;
@@ -154,45 +178,6 @@ public class Team7593TeleOp extends Team7593OpMode {
             robot.tilt.setPower(0.1);
         }
          */
-
-        /*if (gamepad2.x && t.time() > lastReadT + 0.5) {
-            lastReadT = t.time();
-            pressed = !pressed;
-            if(pressed == false){
-                robot.hook.setPower(.45);
-                telemetry.addData("pressed", ".45");
-            }else{
-                robot.hook.setPower(.55);
-                telemetry.addData("pressed", "1");
-            }
-        }*/
-
-        /*if (gamepad2.a && time.time() > lastReadTimer + 0.5) {
-            lastReadTimer = time.time();
-            pushed = !pushed;
-            if (pushed == false){
-                robot.latch.setPosition(1);
-            }else{
-                robot.latch.setPosition(0.6);
-            }
-        }*/
-
-//        //code to turn servo
-//        if(gamepad2.dpad_up){
-//            /*position += SPEED;
-//            position = Range.clip(position, robot.MIN, robot.MAX);
-//            robot.hook.setPower(position);*/
-//            robot.hook.setDirection(DcMotorSimple.Direction.FORWARD);
-//            robot.hook.setPower(.7);
-//        }else if(gamepad2.dpad_down){
-//            /*position -= SPEED;
-//            position = Range.clip(position, robot.MIN, robot.MAX);
-//            robot.hook.setPower(position);*/
-//            robot.hook.setDirection(DcMotorSimple.Direction.REVERSE);
-//            robot.hook.setPower(.7);
-//        }else{
-//            robot.hook.setPower(0);
-//        }
 
         //use the imu
         angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);

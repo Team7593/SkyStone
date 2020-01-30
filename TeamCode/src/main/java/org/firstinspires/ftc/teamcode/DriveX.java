@@ -35,20 +35,20 @@ public class DriveX implements AutonStep {
 
     public void loop (Team7593OpMode opmode){
         //set motor power
-//        opmode.robot.motorFrontLeft.setPower(wheelSpeeds.v_lf);
-//        opmode.robot.motorFrontRight.setPower(wheelSpeeds.v_rf);
-//        opmode.robot.motorRearLeft.setPower(wheelSpeeds.v_lr);
-//        opmode.robot.motorRearRight.setPower(wheelSpeeds.v_rr);
+        opmode.robot.motorFrontLeft.setPower(wheelSpeeds.v_lf);
+        opmode.robot.motorFrontRight.setPower(wheelSpeeds.v_rf);
+        opmode.robot.motorRearLeft.setPower(wheelSpeeds.v_lr);
+        opmode.robot.motorRearRight.setPower(wheelSpeeds.v_rr);
     }
 
     public boolean isDone(Team7593OpMode opmode){
         if(time.time() > endTime ){
             opmode.telemetry.log().add("DriveX Time: " + time.time());
 
-//            opmode.robot.motorFrontLeft.setPower(0);
-//            opmode.robot.motorFrontRight.setPower(0);
-//            opmode.robot.motorRearLeft.setPower(0);
-//            opmode.robot.motorRearRight.setPower(0);
+            opmode.robot.motorFrontLeft.setPower(0);
+            opmode.robot.motorFrontRight.setPower(0);
+            opmode.robot.motorRearLeft.setPower(0);
+            opmode.robot.motorRearRight.setPower(0);
             return true;
         }else{
             return false;

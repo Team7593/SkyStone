@@ -18,9 +18,7 @@ public class Foundton extends Team7593OpMode {
         ArrayList<AutonStep> steps = new ArrayList<>();
 
         steps.add(new DriveY(.8, .5));
-        steps.add(new Hook(false));
         /*steps.add(new DriveY(.35, .5));
-        steps.add(new Hook(true));
         steps.add(new DriveY(.1, .4));
         steps.add(new DriveX(.5, -.6));
         steps.add(new DriveY(.5, -.5));
