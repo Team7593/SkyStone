@@ -16,24 +16,6 @@ import java.util.ArrayList;
 @TeleOp (name = "TeleOp")
 public class Team7593TeleOp extends Team7593OpMode {
 
-    //Declare Variables
-    public ElapsedTime time = new ElapsedTime(); //a timer
-    public double lastReadTimer = 0;
-
-    public ElapsedTime t = new ElapsedTime(); //a timer
-    public double lastReadT = 0;
-
-    public int currEncoderVal;  //encoder values for tilt
-    public int oldEncoderVal;
-
-    public int cEncoderVal;  //encoder values for rightLift
-    public int oEncoderVal;
-
-    public int cuEncoderVal; //encoder values for leftLift
-    public int olEncoderVal;
-
-    public boolean pressed = false;
-    public boolean pushed = false;
 
     double position = robot.HOME;
     final double SPEED = 0.02; //sets rate to move servo
@@ -73,8 +55,7 @@ public class Team7593TeleOp extends Team7593OpMode {
         olEncoderVal = robot.rightLift.getCurrentPosition();*/
 
         telemetry.addData("Say", "HELLO FROM THE OTHER SIIIIIDE");
-        time.startTime();
-        t.startTime();
+
     }
 
     public void loop() {
@@ -97,11 +78,6 @@ public class Team7593TeleOp extends Team7593OpMode {
         slowDrive = gamepad1.left_bumper;
         slowDrive2 = gamepad1.right_bumper;
 
-        liftStick = gamepad2.left_stick_y;
-        tiltStick = gamepad2.right_stick_y;
-        slowTilt = gamepad2.right_bumper;
-        latch = gamepad2.a;
-        hook = gamepad2.x;
 
         tiltPower = .6;
 
@@ -117,10 +93,10 @@ public class Team7593TeleOp extends Team7593OpMode {
         robot.powerTheWheels(speeds);
 
 
-        //slow the tilt motor
-        if(slowTilt){
-            tiltPower = tiltPower/2;
-        }
+//        //slow the tilt motor
+//        if(slowTilt){
+//            tiltPower = tiltPower/2;
+//        }
 
         /*if(liftStick > 0) {
             if (robot.rightLift.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
@@ -201,23 +177,22 @@ public class Team7593TeleOp extends Team7593OpMode {
             }
         }*/
 
-        //code to turn servo
-        if(gamepad2.dpad_up){
-            /*position += SPEED;
-            position = Range.clip(position, robot.MIN, robot.MAX);
-            robot.hook.setPower(position);*/
-            robot.hook.setDirection(DcMotorSimple.Direction.FORWARD);
-            robot.hook.setPower(.7);
-        }else if(gamepad2.dpad_down){
-            /*position -= SPEED;
-            position = Range.clip(position, robot.MIN, robot.MAX);
-            robot.hook.setPower(position);*/
-            robot.hook.setDirection(DcMotorSimple.Direction.REVERSE);
-            robot.hook.setPower(.7);
-        }else{
-            robot.hook.setPower(0);
-        }
-
+//        //code to turn servo
+//        if(gamepad2.dpad_up){
+//            /*position += SPEED;
+//            position = Range.clip(position, robot.MIN, robot.MAX);
+//            robot.hook.setPower(position);*/
+//            robot.hook.setDirection(DcMotorSimple.Direction.FORWARD);
+//            robot.hook.setPower(.7);
+//        }else if(gamepad2.dpad_down){
+//            /*position -= SPEED;
+//            position = Range.clip(position, robot.MIN, robot.MAX);
+//            robot.hook.setPower(position);*/
+//            robot.hook.setDirection(DcMotorSimple.Direction.REVERSE);
+//            robot.hook.setPower(.7);
+//        }else{
+//            robot.hook.setPower(0);
+//        }
 
         //use the imu
         angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -239,7 +214,5 @@ public class Team7593TeleOp extends Team7593OpMode {
         telemetry.addData("Current Angle: ", robot.getCurrentAngle());
         telemetry.addData("Init Angle: ", robot.initAngle);
 
-        //gold pos should be either 1,2,3
-        telemetry.addData("Servo Position:", robot.hook.getPower());
     }
 }

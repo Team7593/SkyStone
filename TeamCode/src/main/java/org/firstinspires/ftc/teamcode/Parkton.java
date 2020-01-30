@@ -18,7 +18,8 @@ public class Parkton extends Team7593OpMode {
         ArrayList<AutonStep> steps = new ArrayList<>();
 
         steps.add(new DriveY(.2, -.6));
-        steps.add(new DriveX(1, -.75));
+        steps.add(new AngleRotate(270,-.5));
+        steps.add(new DriveY(.8, -.6));
 
         return steps;
     }

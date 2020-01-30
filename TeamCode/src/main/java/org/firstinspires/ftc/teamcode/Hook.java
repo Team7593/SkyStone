@@ -24,11 +24,11 @@ public class Hook implements AutonStep {
 
     @Override
     public void loop(Team7593OpMode opmode) {
-        if(y){
-            opmode.robot.hook.setPower(.6);
-        }else{
-            opmode.robot.hook.setPower(-.6);
-        }
+//        if(y){
+//            opmode.robot.hook.setPower(.6);
+//        }else{
+//            opmode.robot.hook.setPower(-.6);
+//        }
     }
 
     @Override

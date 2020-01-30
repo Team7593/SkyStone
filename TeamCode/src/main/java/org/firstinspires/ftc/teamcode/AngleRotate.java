@@ -49,10 +49,10 @@ public class AngleRotate implements AutonStep {
     @Override
     public void loop(Team7593OpMode opmode) {
 
-        opmode.robot.motorFrontLeft.setPower(wheelSpeeds.v_lf);
-        opmode.robot.motorFrontRight.setPower(wheelSpeeds.v_rf);
-        opmode.robot.motorRearLeft.setPower(wheelSpeeds.v_lr);
-        opmode.robot.motorRearRight.setPower(wheelSpeeds.v_rr);
+//        opmode.robot.motorFrontLeft.setPower(wheelSpeeds.v_lf);
+//        opmode.robot.motorFrontRight.setPower(wheelSpeeds.v_rf);
+//        opmode.robot.motorRearLeft.setPower(wheelSpeeds.v_lr);
+//        opmode.robot.motorRearRight.setPower(wheelSpeeds.v_rr);
 
     }
 
@@ -67,10 +67,10 @@ public class AngleRotate implements AutonStep {
         }
 
         if(endAngle - range < currentAngle && currentAngle < endAngle+range){
-            opmode.robot.motorFrontLeft.setPower(0);
-            opmode.robot.motorFrontRight.setPower(0);
-            opmode.robot.motorRearLeft.setPower(0);
-            opmode.robot.motorRearRight.setPower(0);
+//            opmode.robot.motorFrontLeft.setPower(0);
+//            opmode.robot.motorFrontRight.setPower(0);
+//            opmode.robot.motorRearLeft.setPower(0);
+//            opmode.robot.motorRearRight.setPower(0);
 
             if(enabled == false) {
                 return true;
