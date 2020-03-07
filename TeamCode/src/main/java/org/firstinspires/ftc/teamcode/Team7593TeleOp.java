@@ -17,8 +17,15 @@ import java.util.ArrayList;
 public class Team7593TeleOp extends Team7593OpMode {
 
 
-    double position = robot.HOME;
+    double position1 = robot.HOME;
+    double position2 = robot.MAX;
     final double SPEED = 0.02; //sets rate to move servo
+
+    public int cEncoderVal;
+    public int oEncoderVal;
+
+    public int currEncoderVal;
+    public int oldEncoderVal;
 
     Orientation angles; //to use the imu (mostly for telemetry)
 
@@ -36,23 +43,18 @@ public class Team7593TeleOp extends Team7593OpMode {
         super.init();
 
         //stop the motor(s) and reset the motor encoders to 0
+        robot.out.setPower(0);
+        robot.up.setPower(0);
 
-        /*robot.tilt.setPower(0);
-        robot.rightLift.setPower(0);
-        robot.leftLift.setPower(0);
+        robot.claw.setPosition(0);
 
-        robot.tilt.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.up.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        robot.tilt.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.up.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //get the starting encoder value of tilt (this is so we don't assume the starting econder value is 0)
-        oldEncoderVal = robot.tilt.getCurrentPosition();
-        oEncoderVal = robot.leftLift.getCurrentPosition();
-        olEncoderVal = robot.rightLift.getCurrentPosition();*/
+        oEncoderVal = robot.up.getCurrentPosition();
+        oldEncoderVal = robot.out.getCurrentPosition();
 
         telemetry.addData("Say", "HELLO FROM THE OTHER SIIIIIDE");
 
@@ -64,12 +66,11 @@ public class Team7593TeleOp extends Team7593OpMode {
         super.loop();
 
         //get the current encoder value of tilt
-        /*cuEncoderVal = robot.leftLift.getCurrentPosition();
-        cEncoderVal = robot.rightLift.getCurrentPosition();
-        currEncoderVal = robot.tilt.getCurrentPosition();*/
+        cEncoderVal = robot.up.getCurrentPosition();
+        currEncoderVal = robot.out.getCurrentPosition();
 
-        double leftX, rightX, leftY, liftStick, tiltStick, tiltPower; //declaration for the game sticks + power
-        boolean hook, latch, slowDrive, slowTilt, slowDrive2; //declaration for the buttons/bumpers
+        double leftX, rightX, leftY, out, up, outPower, upPower; //declaration for the game sticks + power
+        boolean slow, slow1, slowDrive, slowDrive2, spin; //declaration for the buttons/bumpers
         WheelSpeeds speeds; //variable to hold speeds
 
         leftX = gamepad1.left_stick_x;
@@ -77,10 +78,19 @@ public class Team7593TeleOp extends Team7593OpMode {
         leftY = gamepad1.left_stick_y;
         slowDrive = gamepad1.left_bumper;
         slowDrive2 = gamepad1.right_bumper;
+        slow = gamepad2.right_bumper;
+        slow1 = gamepad2.left_bumper;
+        up = gamepad2.left_stick_y;
+        out = gamepad2.right_stick_y;
+        spin = gamepad2.x;
 
+        upPower = up*.75;
+        outPower = out*.75;
 
-        tiltPower = .6;
-
+        if(spin){
+            robot.spin1.setPower(-1);
+            robot.spin2.setPower(1);
+        }
 
         //get the speeds
         if(slowDrive || slowDrive2){
@@ -92,92 +102,47 @@ public class Team7593TeleOp extends Team7593OpMode {
         //power the motors
         robot.powerTheWheels(speeds);
 
-
-                //code to turn servo
-        if(gamepad1.dpad_up){
-            position += SPEED;
-            position = Range.clip(position, robot.MIN, robot.MAX);
-            robot.drop1.setPosition(position);
-            robot.drop2.setPosition(position);
-        }else if(gamepad1.dpad_down){
-            position -= SPEED;
-            position = Range.clip(position, robot.MIN, robot.MAX);
-            robot.drop1.setPosition(position);
-            robot.drop2.setPosition(position);
-        }
-
-        if(gamepad1.a){
-            robot.drop1.setPosition(0);
-            robot.drop2.setPosition(0);
-        }
-
-        if(gamepad1.a){
-            robot.drop1.setPosition(.8);
-            robot.drop2.setPosition(.8);
+        if(gamepad2.a){
+            robot.claw.setPosition(.7);
+        }else if(gamepad2.b){
+            robot.claw.setPosition(0);
         }
 
 
-//        //slow the tilt motor
-//        if(slowTilt){
-//            tiltPower = tiltPower/2;
-//        }
-
-        /*if(liftStick > 0) {
-            if (robot.rightLift.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
-                robot.rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            }
-            if(robot.leftLift.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
-                robot.leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            }
-            robot.rightLift.setPower(liftStick);
-            robot.leftLift.setPower(-liftStick);
-            cEncoderVal = oEncoderVal;
-            cuEncoderVal = olEncoderVal;
-        }else if(liftStick < 0) {
-            if (robot.rightLift.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
-            robot.rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
-            if(robot.leftLift.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
-                robot.leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            }
-            robot.rightLift.setPower(liftStick);
-            robot.leftLift.setPower(-liftStick);
-            cEncoderVal = oEncoderVal;
-            cuEncoderVal = olEncoderVal;
-
-        }else{
-            robot.rightLift.setTargetPosition(oEncoderVal);
-            robot.leftLift.setTargetPosition(oldEncoderVal);
-            if (robot.rightLift.getMode() != DcMotor.RunMode.RUN_TO_POSITION) {
-            robot.rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-            if (robot.leftLift.getMode() != DcMotor.RunMode.RUN_TO_POSITION) {
-                robot.leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-            robot.rightLift.setPower(0.1);
-            robot.leftLift.setPower(0.1);
+        if(slow || slow1){
+            upPower = up*.5;
+            outPower = out*.5;
         }
 
-        if (tiltStick > 0) {
-            if (robot.tilt.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
-                robot.tilt.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //recursive encoder loop to the keep the tilt motor still-ish
+        if (up > 0) {
+            if (robot.up.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
+                robot.up.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
-            robot.tilt.setPower(tiltStick);
+            robot.up.setPower(upPower);
             oldEncoderVal = currEncoderVal;
-        } else if (tiltStick < 0) {
-            if (robot.tilt.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
-                robot.tilt.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        } else if (up < 0) {
+            if (robot.up.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
+                robot.up.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
-            robot.tilt.setPower(tiltStick);
+            robot.up.setPower(upPower);
             oldEncoderVal = currEncoderVal;
         } else {
-            robot.tilt.setTargetPosition(oldEncoderVal);
-            if (robot.tilt.getMode() != DcMotor.RunMode.RUN_TO_POSITION) {
-                robot.tilt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            if (robot.up.getMode() != DcMotor.RunMode.RUN_TO_POSITION) {
+                robot.up.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
-            robot.tilt.setPower(0.1);
+            robot.up.setTargetPosition(oldEncoderVal);
+            robot.up.setPower(0.05);
         }
-         */
+
+        if (out > 0) {
+            robot.out.setPower(outPower);
+        } else if (up < 0) {
+            robot.out.setPower(outPower);
+        } else {
+            robot.out.setPower(0);
+        }
+
 
         //use the imu
         angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -198,6 +163,5 @@ public class Team7593TeleOp extends Team7593OpMode {
         telemetry.addLine();
         telemetry.addData("Current Angle: ", robot.getCurrentAngle());
         telemetry.addData("Init Angle: ", robot.initAngle);
-
     }
 }

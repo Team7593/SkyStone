@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -25,15 +26,18 @@ public class Team7593Hardware{
     public DcMotor motorFrontLeft;
     public DcMotor motorRearRight;
     public DcMotor motorRearLeft;
+    public DcMotor up;
+    public DcMotor out;
+    public DcMotor spin1;
+    public DcMotor spin2;
 
     //declare servos
-    public Servo drop1;
-    public Servo drop2;
+    public Servo claw;
 
     //the way i made the code work is there's range that the servo can move
     //when a driver presses the dpad up or down the servo moves back or forth in this range
     //change the range HERE ONLY that's all you'll need if the range is off
-    public final static double HOME = 1.0; //starting position for servo tilt
+    public final static double HOME = 0.0; //starting position for servo tilt
 
     public final static double MIN = 0.0; //min value for servo tilt
 
@@ -41,7 +45,7 @@ public class Team7593Hardware{
 
 
     //declare sensors
-    ColorSensor color;
+    NormalizedColorSensor color;
 
 
     //declare internal imu and the parameters
@@ -77,13 +81,17 @@ public class Team7593Hardware{
         motorFrontLeft = hwMap.get(DcMotor.class, "mfl");
         motorRearRight = hwMap.get(DcMotor.class, "mrr");
         motorRearLeft = hwMap.get(DcMotor.class, "mrl");
+        up = hwMap.get(DcMotor.class, "up");
+        out = hwMap.get(DcMotor.class, "out");
+        spin1 = hwMap.get(DcMotor.class, "spin1");
+        spin2 = hwMap.get(DcMotor.class, "spin2");
+        claw = hwMap.get(Servo.class, "claw");
 
         //Define and initialize servos
-        drop1 = hwMap.get(Servo.class, "drop1");
-        drop2 = hwMap.get(Servo.class, "drop2");
+
 
         //Define and initialize sensors
-
+        color = hwMap.get(NormalizedColorSensor.class, "sensor_color");
 
         imu = hwMap.get(BNO055IMU.class, "imu 1");
         imu.initialize(parameters);
@@ -95,6 +103,10 @@ public class Team7593Hardware{
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorRearRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorRearLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        up.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        out.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        spin1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        spin1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
